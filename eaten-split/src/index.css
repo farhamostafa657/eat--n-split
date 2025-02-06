@@ -170,8 +170,11 @@ form h2 {
   box-sizing: border-box;
 }
 
-body {
+.body {
   color: rgb(98, 97, 97);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sideBar {
@@ -207,13 +210,14 @@ body {
   border-radius: 2rem;
 }
 
-.sideBar ul li button {
+.btn {
   border-radius: 5rem;
   border: none;
   outline: none;
   background-color: bisque;
   text-align: center;
   color: black;
+  cursor: pointer;
 }
 .red {
   color: red;
@@ -221,4 +225,84 @@ body {
 
 .green {
   color: green;
+}
+
+.formStyle {
+  margin-top: 2rem;
+  margin-left: 2rem;
+  background-color: rgb(241, 233, 223);
+  max-width: 30vw;
+  position: relative;
+  height: 25vh;
+  border-radius: 1rem;
+}
+
+.formStyle Button,
+.split Button {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  padding: 1rem;
+  background-color: rgb(186, 174, 160);
+  cursor: pointer;
+}
+
+.data {
+  padding-top: 0.6rem;
+  margin: 0.7rem;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+}
+
+.data label {
+  font-weight: 500;
+  color: rgb(62, 59, 54);
+  text-transform: uppercase;
+}
+
+.data input {
+  border-radius: 1rem;
+  border: none;
+  outline: none;
+  padding: 0.2rem;
+}
+
+.data input:focus {
+  outline: none;
+  border: 2px solid rgb(186, 174, 160);
+}
+.container {
+  max-width: 50vw;
+  height: 80vh;
+  position: relative;
+}
+
+.container > Button {
+  position: absolute;
+  right: 14rem;
+  bottom: 0.7rem;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.split {
+  background-color: rgb(241, 233, 223);
+  width: 100vw;
+  height: 60vh;
+  border-radius: 2rem;
+  position: relative;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.formsplit {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  text-transform: uppercase;
+  text-align: center;
+  padding-top: 0.4rem;
+  font-weight: bold;
 }
