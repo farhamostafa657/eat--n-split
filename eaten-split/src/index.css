@@ -278,7 +278,6 @@ form h2 {
 }
 
 .container > Button {
-  position: absolute;
   right: 14rem;
   bottom: 0.7rem;
   padding: 0.5rem;

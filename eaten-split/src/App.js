@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const initialFriends = [
   {
     id: 118836,
@@ -20,73 +22,134 @@ const initialFriends = [
 ];
 
 export default function App() {
+  const [friends, setFriens] = useState(initialFriends);
+  const [showAddFriend, setShowAddFriend] = useState(false);
+  const [selectFriend, setSelecetFriend] = useState(null);
+  function handleShowAddFriend() {
+    setShowAddFriend((show) => !show);
+  }
+
+  function handleAddFriend(friend) {
+    setFriens((friends) => [...friends, friend]);
+    setShowAddFriend(false);
+  }
+
+  function handleSelected(friend) {
+    setSelecetFriend(friend);
+  }
   return (
     <div className="body">
       <div className="container">
-        <Friends />
-        <FormAddFriend />
-        <Button>Add Friend</Button>
+        <Friends
+          friends={friends}
+          onSelect={handleSelected}
+          selectFriend={selectFriend}
+        />
+
+        {showAddFriend && <FormAddFriend onAddFriend={handleAddFriend} />}
+
+        <Button onClick={handleShowAddFriend}>
+          {showAddFriend ? "Close" : "Add Friend"}
+        </Button>
       </div>
 
-      <FormSplitBill />
+      {selectFriend && <FormSplitBill />}
     </div>
   );
 }
 
-function Friends() {
-  const friends = initialFriends;
+function Friends({ friends, onSelect, selectFriend }) {
   return (
     <div className="sideBar">
       <ul>
         {friends.map((friend) => (
-          <Friend friend={friend} key={friend.name} />
+          <Friend
+            friend={friend}
+            key={friend.name}
+            onSelect={onSelect}
+            selectFriend={selectFriend}
+          />
         ))}
       </ul>
     </div>
   );
 }
 
-function Friend({ friend }) {
+function Friend({ friend, onSelect, selectFriend }) {
   return (
     <li>
-      <img src={friend.image} alt={friend.name}></img>
+      <img src={selectFriend.image} alt={selectFriend.name}></img>
       <h3>{friend.name}</h3>
 
       {friend.balance < 0 && (
         <p className="red">
-          you owe {friend.name} {Math.abs(friend.balance)}
+          you owe {selectFriend.name} {Math.abs(selectFriend.balance)}
         </p>
       )}
 
       {friend.balance > 0 && (
         <p className="green">
-          {friend.name} owes you {friend.balance}
+          {selectFriend.name} owes you {selectFriend.balance}
         </p>
       )}
 
-      {friend.balance === 0 && <p>you and {friend.name} are evenly</p>}
+      {selectFriend.balance === 0 && (
+        <p>you and {selectFriend.name} are evenly</p>
+      )}
 
-      <Button>Select</Button>
+      <Button onClick={() => onSelect(friend)}>Select</Button>
     </li>
   );
 }
 
-function Button({ children }) {
-  return <button className="btn">{children}</button>;
+function Button({ children, onClick }) {
+  return (
+    <button className="btn" onClick={onClick}>
+      {children}
+    </button>
+  );
 }
 
-function FormAddFriend() {
+function FormAddFriend({ onAddFriend }) {
+  const [name, setName] = useState("");
+  const [image, setImage] = useState("https://i.pravatar.cc/48");
+
+  function handleAddFriend(e) {
+    e.preventDefault();
+
+    if (!name || !image) return null;
+    let id = crypto.randomUUID();
+    const newFriend = {
+      id: id,
+      name: name,
+      image: `${image}?=${id}`,
+      balance: 0,
+    };
+    console.log(newFriend);
+    onAddFriend(newFriend);
+    setName("");
+    setImage("https://i.pravatar.cc/48");
+  }
+
   return (
     <div>
-      <form className="formStyle">
+      <form className="formStyle" onSubmit={(e) => handleAddFriend(e)}>
         <div className="data">
           <label>friend name</label>
-          <input type="text"></input>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          ></input>
         </div>
 
         <div className="data">
           <label>image url</label>
-          <input type="text"></input>
+          <input
+            type="text"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+          ></input>
         </div>
         <Button>Add</Button>
       </form>
