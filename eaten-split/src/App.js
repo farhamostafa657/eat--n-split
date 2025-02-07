@@ -35,7 +35,7 @@ export default function App() {
   }
 
   function handleSelected(friend) {
-    setSelecetFriend(friend);
+    setSelecetFriend((cur) => (cur?.id === friend.id ? null : friend));
   }
   return (
     <div className="body">
@@ -53,7 +53,7 @@ export default function App() {
         </Button>
       </div>
 
-      {selectFriend && <FormSplitBill />}
+      {selectFriend && <FormSplitBill selectFriend={selectFriend} />}
     </div>
   );
 }
@@ -76,28 +76,29 @@ function Friends({ friends, onSelect, selectFriend }) {
 }
 
 function Friend({ friend, onSelect, selectFriend }) {
+  const isSelected = selectFriend?.id === friend.id;
   return (
-    <li>
-      <img src={selectFriend.image} alt={selectFriend.name}></img>
+    <li className={isSelected ? "selected" : ""}>
+      <img src={friend.image} alt={friend.name}></img>
       <h3>{friend.name}</h3>
 
       {friend.balance < 0 && (
         <p className="red">
-          you owe {selectFriend.name} {Math.abs(selectFriend.balance)}
+          you owe {friend.name} {Math.abs(friend.balance)}
         </p>
       )}
 
       {friend.balance > 0 && (
         <p className="green">
-          {selectFriend.name} owes you {selectFriend.balance}
+          {friend.name} owes you {friend.balance}
         </p>
       )}
 
-      {selectFriend.balance === 0 && (
-        <p>you and {selectFriend.name} are evenly</p>
-      )}
+      {friend.balance === 0 && <p>you and {friend.name} are evenly</p>}
 
-      <Button onClick={() => onSelect(friend)}>Select</Button>
+      <Button onClick={() => onSelect(friend)}>
+        {isSelected ? "Close" : "Select"}
+      </Button>
     </li>
   );
 }
@@ -157,10 +158,10 @@ function FormAddFriend({ onAddFriend }) {
   );
 }
 
-function FormSplitBill() {
+function FormSplitBill({ selectFriend }) {
   return (
     <div className="split">
-      <h2 className="title">Split a bill with x</h2>
+      <h2 className="title">Split a bill with {selectFriend.name}</h2>
       <form className="formsplit">
         <div className="data">
           <label>Bill value</label>
@@ -173,7 +174,7 @@ function FormSplitBill() {
         </div>
 
         <div className="data">
-          <label>X expense</label>
+          <label>{selectFriend.name} expense</label>
           <input type="text"></input>
         </div>
 

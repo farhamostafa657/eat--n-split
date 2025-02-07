@@ -173,7 +173,7 @@ form h2 {
 .body {
   color: rgb(98, 97, 97);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -204,7 +204,8 @@ form h2 {
   width: 100%;
 }
 
-.sideBar ul li:hover {
+.sideBar ul li:hover,
+.selected {
   background-color: rgb(186, 174, 160);
   padding: 1.2rem;
   border-radius: 2rem;
@@ -214,10 +215,11 @@ form h2 {
   border-radius: 5rem;
   border: none;
   outline: none;
-  background-color: bisque;
+  background-color: rgb(208, 196, 183);
   text-align: center;
   color: black;
   cursor: pointer;
+  margin-top: 0.5rem;
 }
 .red {
   color: red;
@@ -243,7 +245,7 @@ form h2 {
   right: 1rem;
   bottom: 1rem;
   padding: 1rem;
-  background-color: rgb(186, 174, 160);
+  background-color: rgb(208, 196, 183);
   cursor: pointer;
 }
 
